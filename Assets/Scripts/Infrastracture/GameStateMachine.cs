@@ -1,28 +1,53 @@
-﻿using System;
+﻿using CodeBase.UILogic;
+using System;
 using System.Collections.Generic;
 
 namespace CodeBase.Infastructure
 {
     public class GameStateMachine
     {
-        private Dictionary<Type, IState> _state;
-        private IState _activeState;
+        private Dictionary<Type, IUpdatableState> _state;
+        private IUpdatableState _activeState;
 
-        public GameStateMachine() 
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain) 
         {
             _state = new()
             {
-                {typeof(BootstrapState), new BootstrapState(this) }
+                {typeof(BootstrapState), new BootstrapState(this, sceneLoader) },
+                {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, loadingCurtain) },
+                {typeof(GameLoopState), new GameLoopState(this) },
             };
         }
 
-        public void Enter<TState>() where TState : IState
+        public void Enter<TState>() where TState : class, IState
         {
-            _activeState?.Exit();
-            IState state = _state[typeof(TState)];
+            IState state = ChangeState<TState>();
             state.Enter();
-            _activeState = state;
+}
+
+
+        public void Enter<TState, TPayLoad>(TPayLoad payLoad) where TState : class, IPayLoadState<TPayLoad>
+        {
+            IPayLoadState<TPayLoad> state = ChangeState<TState>();
+            state.Enter(payLoad);
         }
 
+        public void Update()
+        {
+            _activeState.Update();
+        }
+
+        private TState ChangeState<TState>() where TState : class, IUpdatableState
+        {
+            _activeState?.Exit();
+            TState state = GetState<TState>();
+            _activeState = state;
+            return state;
+        }
+
+        private TState GetState<TState>() where TState : class, IUpdatableState
+        {
+            return _state[typeof(TState)] as TState;
+        }
     }
 }

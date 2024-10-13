@@ -21,7 +21,6 @@ namespace CodeBase
         private void Start()
         {
             _camera = Camera.main;
-            SetMeAsCameraFollow();
         }
 
         private void Update()
@@ -41,10 +40,6 @@ namespace CodeBase
             movement += Physics.gravity;
 
             _characterController.Move(movement * Time.deltaTime * _movementSpeed);
-        }
-        private void SetMeAsCameraFollow()
-        {
-            _camera.GetComponent<CameraFollow>().SetFollowTarget(transform);
         }
     }
 }
