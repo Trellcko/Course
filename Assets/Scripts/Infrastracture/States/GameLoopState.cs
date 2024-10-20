@@ -19,7 +19,6 @@
 
         public void Update()
         {
-            _gameStateMachine.Update();
         }
     }
 }

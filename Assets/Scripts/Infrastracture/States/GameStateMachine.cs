@@ -1,4 +1,5 @@
-﻿using CodeBase.UILogic;
+﻿using CodeBase.Infrastracture.PersistanceProgress;
+using CodeBase.UILogic;
 using System;
 using System.Collections.Generic;
 
@@ -9,12 +10,15 @@ namespace CodeBase.Infastructure
         private Dictionary<Type, IUpdatableState> _state;
         private IUpdatableState _activeState;
 
-        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain) 
+        public GameStateMachine(SceneLoader sceneLoader, LoadingCurtain loadingCurtain, ServiceLocator serviceLocator) 
         {
             _state = new()
             {
-                {typeof(BootstrapState), new BootstrapState(this, sceneLoader) },
-                {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, loadingCurtain) },
+                {typeof(BootstrapState), new BootstrapState(this, sceneLoader, serviceLocator) },
+                {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, loadingCurtain, 
+                serviceLocator.Single<IGameFactory>()) },
+                {typeof(LoadProgresState), new LoadProgresState(this, serviceLocator.Single<IPersistanceProgresService>(),
+                serviceLocator.Single<ISaveLoadProgresService>()) },
                 {typeof(GameLoopState), new GameLoopState(this) },
             };
         }
@@ -34,7 +38,7 @@ namespace CodeBase.Infastructure
 
         public void Update()
         {
-            _activeState.Update();
+            _activeState?.Update();
         }
 
         private TState ChangeState<TState>() where TState : class, IUpdatableState

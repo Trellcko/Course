@@ -6,12 +6,11 @@ namespace CodeBase.Infastructure
 {
     public class Game
     {
-        public static IInputService InputSerivce;
         public GameStateMachine StateMachine;
 
         public Game(ICorountineRunner corountineRunner, LoadingCurtain loadingCurtain)
         {
-            StateMachine = new(new SceneLoader(corountineRunner), loadingCurtain);
+            StateMachine = new(new SceneLoader(corountineRunner), loadingCurtain, ServiceLocator.Instance);
         }
 
     }
