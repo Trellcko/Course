@@ -6,9 +6,4 @@ namespace CodeBase.Hero
     {
         void UpdateProgress(PlayerProgres playerProgres);
     }
-
-    public interface IReadProgress
-    {
-        void LoadProgress(PlayerProgres playerProgres);
-    }
 }

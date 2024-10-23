@@ -16,7 +16,7 @@ namespace CodeBase.Infastructure
             {
                 {typeof(BootstrapState), new BootstrapState(this, sceneLoader, serviceLocator) },
                 {typeof(LoadLevelState), new LoadLevelState(this, sceneLoader, loadingCurtain, 
-                serviceLocator.Single<IGameFactory>()) },
+                serviceLocator.Single<IGameFactory>(), serviceLocator.Single<IPersistanceProgresService>()) },
                 {typeof(LoadProgresState), new LoadProgresState(this, serviceLocator.Single<IPersistanceProgresService>(),
                 serviceLocator.Single<ISaveLoadProgresService>()) },
                 {typeof(GameLoopState), new GameLoopState(this) },
