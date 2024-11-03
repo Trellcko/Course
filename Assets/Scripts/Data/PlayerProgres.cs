@@ -7,6 +7,6 @@
             WorldData = new WorldData(levelName);
         }
 
-        public WorldData WorldData { get; set; }
+        public WorldData WorldData;
     }
 }

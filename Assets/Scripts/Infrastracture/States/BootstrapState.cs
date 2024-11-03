@@ -35,15 +35,14 @@ namespace CodeBase.Infastructure
 
         private void RegisterServices()
         {
-
             _instance.RegisterSingle(GetInput());
             _instance.RegisterSingle<IPersistanceProgresService>(new PersistanceProgresService());
-            _instance.RegisterSingle<ISaveLoadProgresService>(new SaveLoadProgresService(_instance.Single<IGameFactory>(), 
-                _instance.Single<IPersistanceProgresService>()));
-
             _instance.RegisterSingle<IAssetProvider>(new AssetProvider());
             _instance.RegisterSingle<IGameFactory>(
                 new GameFactory(_instance.Single<IAssetProvider>()));
+            _instance.RegisterSingle<ISaveLoadProgresService>(new SaveLoadProgresService(_instance.Single<IGameFactory>(), 
+                _instance.Single<IPersistanceProgresService>()));
+
         }
 
         private IInputService GetInput()

@@ -2,7 +2,7 @@ using System;
 using System.Collections;
 using UnityEngine;
 
-namespace CodeBase.UILogic
+namespace CodeBase.GameLogic.UILogic
 {
     public class LoadingCurtain : MonoBehaviour
     {
@@ -19,12 +19,12 @@ namespace CodeBase.UILogic
             canvasGroup.alpha = 1;
         }
 
-        public void Hide() => 
+        public void Hide() =>
             StartCoroutine(HideCorun());
 
         private IEnumerator HideCorun()
         {
-            while(canvasGroup.alpha > Constants.Epsilon)
+            while (canvasGroup.alpha > Constants.Epsilon)
             {
                 canvasGroup.alpha -= Time.deltaTime;
                 yield return null;

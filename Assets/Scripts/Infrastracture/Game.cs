@@ -1,5 +1,5 @@
-﻿using CodeBase.Services.Input;
-using CodeBase.UILogic;
+﻿using CodeBase.GameLogic.UILogic;
+using CodeBase.Services.Input;
 using UnityEngine;
 
 namespace CodeBase.Infastructure

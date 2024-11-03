@@ -13,6 +13,11 @@ namespace CodeBase.Data
         public static string ToJson(this object value) =>
             JsonUtility.ToJson(value);
 
+        public static Vector3 AddY(this Vector3 target, float y)
+        {
+            target.y += y;
+            return target;
+        }
         public static T ToDeserialize<T>(this string json) => 
             JsonUtility.FromJson<T>(json);
     }

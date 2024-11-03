@@ -11,16 +11,24 @@ namespace CodeBase.Infastructure
         public IReadOnlyList<ISaveProgress> SaveProgresses => _saveProgresses;
         public IReadOnlyList<IReadProgress> ReadProgresses => _readProgresses;
 
+        public GameObject Hero { get; private set; }
+
         private List<ISaveProgress> _saveProgresses = new();
         private List<IReadProgress> _readProgresses = new();
+
+        public event Action HeroCreated;
 
         public GameFactory(IAssetProvider assets)
         {
             _assets = assets;
         }
 
-        public GameObject CreateHero(GameObject initialPoint) => 
-            InstatiateRegister(AssetPath.HetoPrefabPath, initialPoint.transform.position);
+        public GameObject CreateHero(GameObject initialPoint)
+        {
+            Hero = InstatiateRegister(AssetPath.HetoPrefabPath, initialPoint.transform.position);
+            HeroCreated?.Invoke();
+            return Hero;
+        }
 
         public void CreateHub() =>
             InstatiateRegister(AssetPath.HudPrefabPath);

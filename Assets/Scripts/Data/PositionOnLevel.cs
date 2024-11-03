@@ -1,9 +1,12 @@
-﻿namespace CodeBase.Data
+﻿using System;
+
+namespace CodeBase.Data
 {
+    [Serializable]
     public class PositionOnLevel
     {
-        public Vector3Data Vector3Data { get; private set; }
-        public string Level { get; private set; }
+        public Vector3Data Vector3Data;
+        public string Level;
 
         public PositionOnLevel(string level, Vector3Data vector3Data)
         {

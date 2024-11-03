@@ -1,5 +1,5 @@
-﻿using CodeBase.Infrastracture.PersistanceProgress;
-using CodeBase.UILogic;
+﻿using CodeBase.GameLogic.UILogic;
+using CodeBase.Infrastracture.PersistanceProgress;
 using System;
 using System.Collections.Generic;
 

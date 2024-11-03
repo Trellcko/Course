@@ -1,4 +1,5 @@
 ﻿using CodeBase.Hero;
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ namespace CodeBase.Infastructure
     {
         IReadOnlyList<IReadProgress> ReadProgresses { get; }
         IReadOnlyList<ISaveProgress> SaveProgresses { get; }
+        event Action HeroCreated;
+        GameObject Hero { get; }
 
         void CleanUp();
         GameObject CreateHero(GameObject initialPoint);

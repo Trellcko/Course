@@ -1,5 +1,6 @@
-﻿using CodeBase.Infrastracture.PersistanceProgress;
-using CodeBase.UILogic;
+﻿using CodeBase.GameLogic.CameraLogic;
+using CodeBase.GameLogic.UILogic;
+using CodeBase.Infrastracture.PersistanceProgress;
 using System;
 using UnityEngine;
 

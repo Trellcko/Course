@@ -11,6 +11,6 @@ namespace CodeBase.Data
             PositionOnLevel = new(level);
         }
 
-        public PositionOnLevel PositionOnLevel { get; set; }
+        public PositionOnLevel PositionOnLevel;
     }
 }

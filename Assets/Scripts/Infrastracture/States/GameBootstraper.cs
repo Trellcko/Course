@@ -1,4 +1,4 @@
-using CodeBase.UILogic;
+using CodeBase.GameLogic.UILogic;
 using UnityEngine;
 
 namespace CodeBase.Infastructure
@@ -6,13 +6,15 @@ namespace CodeBase.Infastructure
 
     public class GameBootstraper : MonoBehaviour, ICorountineRunner
     {
-        [SerializeField] private LoadingCurtain _loadingCurtain;
+        [SerializeField] private LoadingCurtain _loadingCurtainPrefab;
 
         private Game _game;
         
         private void Awake()
         {
-            _game = new Game(this, _loadingCurtain);
+            LoadingCurtain loadingCurtain = Instantiate(_loadingCurtainPrefab);
+
+            _game = new Game(this, loadingCurtain);
             _game.StateMachine.Enter<BootstrapState>();
             
             DontDestroyOnLoad(gameObject);
