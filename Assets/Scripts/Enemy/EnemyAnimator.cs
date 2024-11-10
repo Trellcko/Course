@@ -21,7 +21,6 @@ namespace CodeBase.Enemy
         private void PlayDeath()
         {
             _animator.SetTrigger(_dieHash);
-            _animator.SetTrigger(_speedHash);
         }
 
         public void SetSpeed(float speed)

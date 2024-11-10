@@ -36,7 +36,12 @@ namespace CodeBase.Infastructure
         {
             
         }
-        private PlayerProgres InitProgres() => 
-            new("Main");
+        private PlayerProgres InitProgres()
+        {
+            PlayerProgres progres = new("Main");
+            progres.HeroStateHP.Max = 100;
+            progres.HeroStateHP.Reset();
+            return progres;
+        }
     }
 }
