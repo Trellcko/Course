@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 namespace CodeBase.Infastructure
 {
     public class GameFactory : IGameFactory
@@ -30,9 +31,8 @@ namespace CodeBase.Infastructure
             return Hero;
         }
 
-        public void CreateHub() =>
+        public GameObject CreateHub() => 
             InstatiateRegister(AssetPath.HudPrefabPath);
-
         private GameObject InstatiateRegister(string path, Vector3 position)
         {
             GameObject spawned = _assets.Instantiate(path, position);

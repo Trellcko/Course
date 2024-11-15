@@ -1,4 +1,5 @@
 using CodeBase.Enemy;
+using CodeBase.Hero;
 using CodeBase.Infastructure;
 using System;
 using UnityEngine;
@@ -62,7 +63,12 @@ namespace CodeBase.Enemy
         {
             if(Hit(out Collider hit))
             {
-                Debug.Log(hit.gameObject.name + " was attacked by " + transform.name);
+                if (hit.TryGetComponent(out HeroHealth heroHealth))
+                {
+                    Debug.Log(hit.gameObject.name + " was attacked by " + transform.name);
+
+                    heroHealth.TakeDamage(1);
+                }
             }
         }
 

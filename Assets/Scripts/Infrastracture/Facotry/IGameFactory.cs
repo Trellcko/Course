@@ -14,6 +14,6 @@ namespace CodeBase.Infastructure
 
         void CleanUp();
         GameObject CreateHero(GameObject initialPoint);
-        void CreateHub();
+        GameObject CreateHub();
     }
 }

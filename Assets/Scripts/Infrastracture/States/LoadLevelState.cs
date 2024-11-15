@@ -1,5 +1,6 @@
 ﻿using CodeBase.GameLogic.CameraLogic;
 using CodeBase.GameLogic.UILogic;
+using CodeBase.Hero;
 using CodeBase.Infrastracture.PersistanceProgress;
 using System;
 using UnityEngine;
@@ -46,10 +47,25 @@ namespace CodeBase.Infastructure
 
         private void InitGameWorld()
         {
+            GameObject player = InitHero();
+            
+            InitHub(player);
+
+            SetCameraFollow(player.transform);
+        }
+
+        private void InitHub(GameObject player)
+        {
+            GameObject hub = _gameFactory.CreateHub();
+            ActorUI actor = hub.GetComponentInChildren<ActorUI>();
+            actor.Construct(player.GetComponent<HeroHealth>());
+        }
+
+        private GameObject InitHero()
+        {
             GameObject initialPoint = GameObject.FindGameObjectWithTag(InitialPointTag);
             GameObject player = _gameFactory.CreateHero(initialPoint);
-            _gameFactory.CreateHub();
-            SetCameraFollow(player.transform);
+            return player;
         }
 
         public void Enter(string levelName)
