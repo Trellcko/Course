@@ -7,17 +7,28 @@ namespace CodeBase.GameLogic.UILogic
     {
         [SerializeField] private HPBar _hpBar;
 
-        private HeroHealth _heroHealth;
+        private IHealth _heroHealth;
 
-        public void Construct(HeroHealth heroHealth)
+        public void Construct(IHealth heroHealth)
         {
             _heroHealth = heroHealth;
-            _heroHealth.HealthChange += UpdateBar;
+            _heroHealth.Changed += UpdateBar;
         }
 
-        private void OnDestroy() => 
-            _heroHealth.HealthChange -= UpdateBar;
+        private void Start()
+        {
+            if(_heroHealth == null)
+            {
+                _heroHealth = transform.parent.GetComponent<IHealth>();
+                _heroHealth.Changed += UpdateBar;
+            }
+        }
 
+        private void OnDestroy()
+        {
+            if(_heroHealth != null)
+            _heroHealth.Changed -= UpdateBar;
+        }
         private void UpdateBar() => 
             _hpBar.SetValue(_heroHealth.Max, _heroHealth.Current);
     }

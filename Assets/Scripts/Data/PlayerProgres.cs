@@ -4,12 +4,13 @@
     {
         public WorldData WorldData;
         public StateHP HeroStateHP;
+        public Stats HeroStats;
 
         public PlayerProgres(string levelName)
         {
-            WorldData = new WorldData(levelName);
-            HeroStateHP = new StateHP();
+            WorldData = new(levelName);
+            HeroStateHP = new();
+            HeroStats = new();
         }
-
     }
 }

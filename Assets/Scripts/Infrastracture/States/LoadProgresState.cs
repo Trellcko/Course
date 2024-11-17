@@ -41,6 +41,8 @@ namespace CodeBase.Infastructure
             PlayerProgres progres = new("Main");
             progres.HeroStateHP.Max = 100;
             progres.HeroStateHP.Reset();
+            progres.HeroStats.Damage = 1;
+            progres.HeroStats.Radius = 0.5f;
             return progres;
         }
     }

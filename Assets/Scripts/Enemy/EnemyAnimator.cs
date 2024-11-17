@@ -18,7 +18,7 @@ namespace CodeBase.Enemy
 
         public AnimatorStateName State { get; private set; }
 
-        private void PlayDeath()
+        public void PlayDeath()
         {
             _animator.SetTrigger(_dieHash);
         }
@@ -44,6 +44,11 @@ namespace CodeBase.Enemy
                 Debug.Log("Die Exit");
             }
         }
+        public void PlayAttack()
+        {
+            _animator.SetTrigger(_attackHash);
+        }
+
 
         public void OnAttackEnded()
         {
@@ -55,9 +60,5 @@ namespace CodeBase.Enemy
             Attacked?.Invoke();
         }
 
-        public void PlayAttack()
-        {
-            _animator.SetTrigger(_attackHash);
-        }
     }
 }

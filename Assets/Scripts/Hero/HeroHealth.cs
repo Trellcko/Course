@@ -1,16 +1,17 @@
 using CodeBase.Data;
+using CodeBase.GameLogic;
 using System;
 using UnityEngine;
 
 namespace CodeBase.Hero
 {
-    public class HeroHealth : MonoBehaviour, ISaveProgress
+    public class HeroHealth : MonoBehaviour, ISaveProgress, IHealth
     {
         [SerializeField] private HeroAnimator _heroAnimator;
 
         private StateHP _heroStateHP;
 
-        public event Action HealthChange;
+        public event Action Changed;
 
         public float Max => _heroStateHP.Max;
         public float Current => _heroStateHP.Current;
@@ -18,7 +19,7 @@ namespace CodeBase.Hero
         public void LoadProgress(PlayerProgres playerProgres)
         {
             _heroStateHP = playerProgres.HeroStateHP;
-            HealthChange?.Invoke();
+            Changed?.Invoke();
         }
 
         public void UpdateProgress(PlayerProgres playerProgres)
@@ -30,15 +31,12 @@ namespace CodeBase.Hero
         {
             Debug.Log($"Hero take damage: {damage}");
 
-            if (Current < 0)
+            if (Current <= 0)
                 return;
 
-
             _heroStateHP.Current -= damage;
-            HealthChange?.Invoke();
+            Changed?.Invoke();
 
-            if (Current < 0)
-                _heroAnimator.PlayDeath();
         }
     }
 }

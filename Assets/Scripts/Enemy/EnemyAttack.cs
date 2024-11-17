@@ -9,9 +9,11 @@ namespace CodeBase.Enemy
     public class EnemyAttack : MonoBehaviour
     {
         [SerializeField] private EnemyAnimator _enemyAnimator;
+        [SerializeField] private Aggro _aggro;
         [SerializeField] private float _attackCoolDown = 3f;
         [SerializeField] private float _cleavage = 5f;
         [SerializeField] private float _effectiveDistance = 0.5f;
+        [SerializeField] private int _damage = 1;
 
         private IGameFactory _gameFactory;
         private Transform _heroTransform;
@@ -22,7 +24,7 @@ namespace CodeBase.Enemy
         private bool _debugAttack;
         private bool _attackIsActive;
         private const string PlayerLayer = "Player";
-       
+
         private void Awake()
         {
             _layerMask = 1 << LayerMask.NameToLayer(PlayerLayer);
@@ -67,7 +69,8 @@ namespace CodeBase.Enemy
                 {
                     Debug.Log(hit.gameObject.name + " was attacked by " + transform.name);
 
-                    heroHealth.TakeDamage(1);
+                    heroHealth.TakeDamage(_damage);
+                    _aggro.TryToAggro();
                 }
             }
         }

@@ -33,13 +33,25 @@ namespace CodeBase
 
         private void OnAgentTriggerEnter(Collider obj)
         {
+            TryToAggro();
+        }
+
+        public bool TryToAggro()
+        {
             if (!_hasAggroTarget)
             {
                 SwitchFollowOn();
+
+                if (_agroCorountine != null)
+                {
+                    StopCoroutine(_agroCorountine);
+                }
+
                 _agroCorountine = StartCoroutine(SwitchFollowOffAfterCoolDown());
                 _hasAggroTarget = true;
-
+                return true;
             }
+            return false;
         }
 
         private IEnumerator SwitchFollowOffAfterCoolDown()
