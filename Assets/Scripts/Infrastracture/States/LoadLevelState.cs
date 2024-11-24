@@ -1,4 +1,5 @@
-﻿using CodeBase.GameLogic.CameraLogic;
+﻿using CodeBase.GameLogic;
+using CodeBase.GameLogic.CameraLogic;
 using CodeBase.GameLogic.UILogic;
 using CodeBase.Hero;
 using CodeBase.Infrastracture.PersistanceProgress;
@@ -11,6 +12,7 @@ namespace CodeBase.Infastructure
     {
         private const string SceneName = "Main";
         private const string InitialPointTag = "InitialPoint";
+        private const string EnemySpawnerTage = "EnemySpawner";
 
         private readonly GameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
@@ -33,8 +35,18 @@ namespace CodeBase.Infastructure
         {
             _gameFactory.CleanUp();
             InitGameWorld();
+            InitSpawners();
             InformProgressReaders();
             _gameStateMachine.Enter<GameLoopState>();
+        }
+
+        private void InitSpawners()
+        {
+            foreach(var spawner in GameObject.FindGameObjectsWithTag(EnemySpawnerTage))
+            {
+               EnemySpawner enemySpawner = spawner.GetComponent<EnemySpawner>();
+                _gameFactory.Register(enemySpawner);
+            }
         }
 
         private void InformProgressReaders()

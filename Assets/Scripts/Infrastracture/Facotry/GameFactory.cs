@@ -54,7 +54,8 @@ namespace CodeBase.Infastructure
                 Register(saveProgress);
             }
         }
-        private void Register(IReadProgress saveProgress)
+
+        public void Register(IReadProgress saveProgress)
         {
             if(saveProgress is ISaveProgress progresWriter)
             {
