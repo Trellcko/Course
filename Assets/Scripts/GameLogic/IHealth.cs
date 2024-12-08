@@ -8,7 +8,7 @@ namespace CodeBase.GameLogic
         float Max { get; }
 
         event Action Changed;
-
+        void ForceSet(float health);
         void TakeDamage(float damage);
     }
 }

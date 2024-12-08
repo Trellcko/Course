@@ -8,37 +8,16 @@ namespace CodeBase.Enemy
     {
         [SerializeField] private float _speed;
 
-        private Transform _heroTransform;
-        private IGameFactory _gameFactory;
         private Vector3 _lookAtPosition;
 
         private float _speedFactor => _speed * Time.deltaTime;
 
-        private void Start()
-        {
-            _gameFactory = ServiceLocator.Instance.Single<IGameFactory>();
-
-            if (_gameFactory.Hero)
-            {
-                _heroTransform = _gameFactory.Hero.transform;
-            }
-            else
-            {
-                _gameFactory.HeroCreated += OnHeroCreated;
-            }
-        }
-
         private void Update()
         {
-            if (_heroTransform)
+            if (Target)
             {
                 RotateToHero();
             }
-        }
-
-        private void OnHeroCreated()
-        {
-            _heroTransform = _gameFactory.Hero.transform;
         }
 
         private void RotateToHero()
@@ -56,9 +35,9 @@ namespace CodeBase.Enemy
 
         private void UpdatePositionToLookAt()
         {
-            _lookAtPosition = _heroTransform.position - transform.position;
+            _lookAtPosition = Target.position - transform.position;
 
-            _lookAtPosition.y = _heroTransform.position.y;
+            _lookAtPosition.y = Target.position.y;
         }
     }
 }

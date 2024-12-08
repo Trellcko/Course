@@ -1,4 +1,5 @@
 ﻿using CodeBase.Infrastracture.PersistanceProgress;
+using CodeBase.Services;
 using CodeBase.Services.Input;
 using UnityEngine;
 
@@ -38,11 +39,18 @@ namespace CodeBase.Infastructure
             _instance.RegisterSingle(GetInput());
             _instance.RegisterSingle<IPersistanceProgresService>(new PersistanceProgresService());
             _instance.RegisterSingle<IAssetProvider>(new AssetProvider());
+            RegisterStaticData();
             _instance.RegisterSingle<IGameFactory>(
-                new GameFactory(_instance.Single<IAssetProvider>()));
-            _instance.RegisterSingle<ISaveLoadProgresService>(new SaveLoadProgresService(_instance.Single<IGameFactory>(), 
+                new GameFactory(_instance.Single<IAssetProvider>(), _instance.Single<IStaticDataService>()));
+            _instance.RegisterSingle<ISaveLoadProgresService>(new SaveLoadProgresService(_instance.Single<IGameFactory>(),
                 _instance.Single<IPersistanceProgresService>()));
+        }
 
+        private void RegisterStaticData()
+        {
+            IStaticDataService staticDataService = new StaticDataService();
+            staticDataService.LoadMonsters();
+            _instance.RegisterSingle(staticDataService);
         }
 
         private IInputService GetInput()

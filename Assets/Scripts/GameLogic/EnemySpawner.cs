@@ -1,6 +1,7 @@
 using CodeBase.Data;
+using CodeBase.Enemy;
 using CodeBase.Hero;
-using System;
+using CodeBase.Infastructure;
 using UnityEngine;
 
 namespace CodeBase.GameLogic
@@ -10,8 +11,21 @@ namespace CodeBase.GameLogic
         [SerializeField] private EnemyTypeId _enemyId;
         [SerializeField] private UniqueId _id;
 
-        [SerializeField] private bool _slain;
-        
+         private bool _slain;
+        private IGameFactory _factory;
+        private EnemyDeath _enemyDeath;
+
+        private void Awake()
+        {
+            _factory = ServiceLocator.Instance.Single<IGameFactory>();
+        }
+
+        private void OnDestroy()
+        {
+            if(_enemyDeath)
+            _enemyDeath.DeathHappened -= Slay;
+        }
+
         public void LoadProgress(PlayerProgres playerProgres)
         {
             if (playerProgres.KillsData.ClearSpawners.Contains(_id.Id))
@@ -26,7 +40,17 @@ namespace CodeBase.GameLogic
 
         private void Spawn()
         {
+            GameObject monster = _factory.CreateMonster(_enemyId, transform);
+            _enemyDeath = monster.GetComponent<EnemyDeath>();
+            _enemyDeath.DeathHappened += Slay;
+            
             Debug.Log($"SPAWN: {_enemyId}");
+        }
+
+        private void Slay()
+        {
+            _enemyDeath.DeathHappened -= Slay;
+            _slain = true;
         }
 
         public void UpdateProgress(PlayerProgres playerProgres)

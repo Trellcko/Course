@@ -12,6 +12,11 @@ namespace CodeBase.Enemy
 
         public event Action Changed;
 
+        public void ForceSet(float health)
+        {
+            Max = Current = health;
+        }
+
         public void TakeDamage(float damage)
         {
             Current -= damage;

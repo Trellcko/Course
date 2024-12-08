@@ -24,7 +24,11 @@ namespace CodeBase.Hero
 
         public void UpdateProgress(PlayerProgres playerProgres)
         {
-            
+
+        }
+        public void ForceSet(float health)
+        {
+            _heroStateHP.Max = _heroStateHP.Current = health;
         }
 
         public void TakeDamage(float damage)

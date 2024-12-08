@@ -1,7 +1,4 @@
-using CodeBase.Enemy;
 using CodeBase.Hero;
-using CodeBase.Infastructure;
-using System;
 using UnityEngine;
 
 namespace CodeBase.Enemy
@@ -10,12 +7,12 @@ namespace CodeBase.Enemy
     {
         [SerializeField] private EnemyAnimator _enemyAnimator;
         [SerializeField] private Aggro _aggro;
-        [SerializeField] private float _attackCoolDown = 3f;
-        [SerializeField] private float _cleavage = 5f;
-        [SerializeField] private float _effectiveDistance = 0.5f;
-        [SerializeField] private int _damage = 1;
+        
+        private float _attackCoolDown;
+        private float _cleavage;
+        private float _effectiveDistance;
+        private int _damage;
 
-        private IGameFactory _gameFactory;
         private Transform _heroTransform;
         private float _currentCoolDown;
         private bool _isAttacking;
@@ -28,9 +25,6 @@ namespace CodeBase.Enemy
         private void Awake()
         {
             _layerMask = 1 << LayerMask.NameToLayer(PlayerLayer);
-
-            _gameFactory = ServiceLocator.Instance.Single<IGameFactory>();
-            _gameFactory.HeroCreated += OnHeroCreated;
         }
 
         private void OnEnable()
@@ -89,11 +83,6 @@ namespace CodeBase.Enemy
             _isAttacking = false;
         }
 
-        private void OnHeroCreated()
-        {
-            _heroTransform = _gameFactory.Hero.transform;
-            _gameFactory.HeroCreated -= OnHeroCreated;
-        }
         private bool CanAttack() => 
             _currentCoolDown < 0 && !_isAttacking;
         private void UpdateCooldown() =>
@@ -113,5 +102,14 @@ namespace CodeBase.Enemy
             _isAttacking = true;
         }
 
+        public void Construct(Transform transform, int damage, float effectiveDistance, float cleavage, float coolDown)
+        {
+            _attackCoolDown = coolDown;
+            _damage = damage;
+            _effectiveDistance = effectiveDistance;
+            _cleavage = cleavage;
+            _heroTransform = transform;
+            Debug.Log(_damage);
+        }
     }
 }
