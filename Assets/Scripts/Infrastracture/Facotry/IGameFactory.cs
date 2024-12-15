@@ -1,4 +1,5 @@
-﻿using CodeBase.GameLogic;
+﻿using CodeBase.Enemy;
+using CodeBase.GameLogic;
 using CodeBase.Hero;
 using System;
 using System.Collections.Generic;
@@ -15,5 +16,6 @@ namespace CodeBase.Infastructure
         GameObject CreateMonster(EnemyTypeId enemyId, Transform transform);
         GameObject CreateHub();
         void Register(IReadProgress saveProgress);
+        LootPiece CreateLoot();
     }
 }

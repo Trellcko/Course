@@ -9,8 +9,11 @@ namespace CodeBase.Data
         public WorldData(string level)
         {
             PositionOnLevel = new(level);
+            LootData = new();
         }
 
         public PositionOnLevel PositionOnLevel;
+
+        public LootData LootData;
     }
 }

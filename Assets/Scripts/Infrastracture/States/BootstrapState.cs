@@ -41,7 +41,7 @@ namespace CodeBase.Infastructure
             _instance.RegisterSingle<IAssetProvider>(new AssetProvider());
             RegisterStaticData();
             _instance.RegisterSingle<IGameFactory>(
-                new GameFactory(_instance.Single<IAssetProvider>(), _instance.Single<IStaticDataService>()));
+                new GameFactory(_instance.Single<IAssetProvider>(), _instance.Single<IStaticDataService>(), _instance.Single<IPersistanceProgresService>()));
             _instance.RegisterSingle<ISaveLoadProgresService>(new SaveLoadProgresService(_instance.Single<IGameFactory>(),
                 _instance.Single<IPersistanceProgresService>()));
         }

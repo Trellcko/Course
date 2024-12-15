@@ -12,3 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dad184e34b3e4414f8f4cf71b55ae6a0, type: 3}
   m_Name: MonsterData
   m_EditorClassIdentifier: 
+  EnemyTypeId: 0
+  <MoveSpeed>k__BackingField: 1
+  <HP>k__BackingField: 1
+  <MinMaxLoot>k__BackingField: {x: 0, y: 0}
+  <Damage>k__BackingField: 16
+  <EffectiveDistance>k__BackingField: 0.556
+  <CoolDown>k__BackingField: 0
+  <Cleavage>k__BackingField: 0.61
+  <Prefab>k__BackingField: {fileID: 2075752778847589112, guid: adccab71b13027449b6bff3793fe5e4e,
+    type: 3}

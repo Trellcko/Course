@@ -3,8 +3,8 @@ using CodeBase.Enemy;
 using CodeBase.GameLogic;
 using CodeBase.GameLogic.UILogic;
 using CodeBase.Hero;
+using CodeBase.Infrastracture.PersistanceProgress;
 using CodeBase.Services;
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
@@ -15,6 +15,7 @@ namespace CodeBase.Infastructure
     {
         private readonly IAssetProvider _assets;
         private readonly IStaticDataService _staticDataService;
+        private readonly IPersistanceProgresService _persistenceProgressService;
 
         public IReadOnlyList<ISaveProgress> SaveProgresses => _saveProgresses;
         public IReadOnlyList<IReadProgress> ReadProgresses => _readProgresses;
@@ -24,10 +25,11 @@ namespace CodeBase.Infastructure
         private List<ISaveProgress> _saveProgresses = new();
         private List<IReadProgress> _readProgresses = new();
 
-        public GameFactory(IAssetProvider assets, IStaticDataService staticDataService)
+        public GameFactory(IAssetProvider assets, IStaticDataService staticDataService, IPersistanceProgresService persistanceProgresService)
         {
             _assets = assets;
             _staticDataService = staticDataService;
+            _persistenceProgressService = persistanceProgresService;
         }
 
         public GameObject CreateHero(GameObject initialPoint)
@@ -36,8 +38,13 @@ namespace CodeBase.Infastructure
             return Hero;
         }
 
-        public GameObject CreateHub() => 
-            InstatiateRegister(AssetPath.HudPrefabPath);
+        public GameObject CreateHub()
+        {
+            GameObject hub = InstatiateRegister(AssetPath.HudPrefabPath);
+            hub.GetComponent<LootCounter>().Constrcut(_persistenceProgressService.PlayerProgress.WorldData);
+
+            return hub;
+        }
         public GameObject CreateMonster(EnemyTypeId enemyId, Transform transform)
         {
            MonsterStaticData data = _staticDataService.ForMonster(enemyId);
@@ -49,6 +56,9 @@ namespace CodeBase.Infastructure
             monster.GetComponentInChildren<ActorUI>().Construct(health);
             monster.GetComponent<AgentFollowing>().Construct(Hero.transform);
             monster.GetComponent<NavMeshAgent>().speed = data.MoveSpeed;
+            LootSpawner lootSpawner = monster.GetComponentInChildren<LootSpawner>();
+            lootSpawner.Construct(this);
+            lootSpawner.SetValue(data.MinMaxLoot);
             EnemyAttack enemyAttack = monster.GetComponent<EnemyAttack>();
             enemyAttack.Construct(Hero.transform, data.Damage, data.EffectiveDistance, data.Cleavage, data.CoolDown);
             return monster;
@@ -87,6 +97,15 @@ namespace CodeBase.Infastructure
         {
             _saveProgresses.Clear();
             _readProgresses.Clear();
+        }
+
+        public LootPiece CreateLoot()
+        {
+            LootPiece lootPiece = InstatiateRegister(AssetPath.LootPrefabPath).GetComponent<LootPiece>();
+
+            lootPiece.Construct(_persistenceProgressService.PlayerProgress.WorldData);
+            
+            return lootPiece;
         }
     }
 }

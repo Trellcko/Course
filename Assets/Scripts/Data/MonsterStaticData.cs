@@ -10,6 +10,7 @@ namespace CodeBase.Data
         [field: SerializeField] public float MoveSpeed { get; internal set; }
         [field: Range(1, 100)]
         [field: SerializeField] public int HP { get; private set; }
+        [field: SerializeField] public Vector2Int MinMaxLoot { get; private set; }
 
         [field: Range(1f, 30f)]
         [field: SerializeField] public int Damage { get; private set; }
